@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Maintenance extends Model {
     static associate(models) {
       Maintenance.belongsTo(models.Station, { foreignKey: "station_id" });
-      Maintenance.belongsTo(models.Sensor, { foreignKey: "id_sensor" });
+      Maintenance.belongsTo(models.Sensor, { foreignKey: "sensor_id" });
       Maintenance.belongsTo(models.User, {
         as: "AssignedBy",
         foreignKey: "assigned_by",

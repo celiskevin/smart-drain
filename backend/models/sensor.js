@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class Sensor extends Model {
     static associate(models) {
       Sensor.belongsTo(models.Station, { foreignKey: "station_id" });
-      Sensor.hasMany(models.SensorData, { foreignKey: "id_sensor" });
-      Sensor.hasMany(models.Maintenance, { foreignKey: "id_sensor" });
+      Sensor.hasMany(models.SensorData, { foreignKey: "sensor_id" });
+      Sensor.hasMany(models.Maintenance, { foreignKey: "sensor_id" });
     }
   }
 
