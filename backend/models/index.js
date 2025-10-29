@@ -1,43 +1,44 @@
-'use strict';
+import { Sequelize, DataTypes } from 'sequelize';
+import config from '../config/config.js';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
-const db = {};
+const dbConfig = config[env];
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  {
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    logging: false
+  }
+);
+
+// Initialize db object
+const db = { sequelize, Sequelize, DataTypes };
+
+// Import models
+const modelDefiners = [
+  { name: 'User', definer: (await import('./user.js')).default },
+  { name: 'Sensor', definer: (await import('./sensor.js')).default },
+  { name: 'Station', definer: (await import('./station.js')).default },
+  { name: 'SensorData', definer: (await import('./sensordata.js')).default },
+  { name: 'Community', definer: (await import('./community.js')).default },
+  { name: 'Maintenance', definer: (await import('./maintenance.js')).default }
+];
+
+// Define all models
+for (const { name, definer } of modelDefiners) {
+  const model = definer(sequelize, DataTypes);
+  db[model.name] = model;
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
+// Set up associations
+for (const modelName of Object.keys(db)) {
+  if (db[modelName]?.associate) {
     db[modelName].associate(db);
   }
-});
+}
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+export default db;

@@ -1,48 +1,23 @@
-"use strict";
-const { Model } = require("sequelize");
+import { DataTypes } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
-  class Maintenance extends Model {
-    static associate(models) {
-      Maintenance.belongsTo(models.Station, { foreignKey: "station_id" });
-      Maintenance.belongsTo(models.Sensor, { foreignKey: "sensor_id" });
-      Maintenance.belongsTo(models.User, {
-        as: "AssignedBy",
-        foreignKey: "assigned_by",
-      });
-      Maintenance.belongsTo(models.User, {
-        as: "Technician",
-        foreignKey: "technician_id",
-      });
-    }
-  }
-
-  Maintenance.init(
-    {
-      date: { type: DataTypes.DATE, allowNull: false },
-      type: {
-        type: DataTypes.ENUM("preventivo", "correctivo", "inspeccion"),
-        allowNull: false,
-      },
-      description: { type: DataTypes.TEXT },
-      status: {
-        type: DataTypes.ENUM(
-          "pendiente",
-          "en_progreso",
-          "completado",
-          "cancelado"
-        ),
-        defaultValue: "pendiente",
-      },
+export default (sequelize) => {
+  const Maintenance = sequelize.define('Maintenance', {
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
-    {
-      sequelize,
-      modelName: "Maintenance",
-      tableName: "maintenances",
-      timestamps: true,
-      paranoid: true,
+    status: {
+      type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
+      defaultValue: 'pending'
+    },
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
-  );
+  }, {
+    timestamps: true,
+    tableName: 'maintenances'
+  });
 
   return Maintenance;
 };

@@ -1,11 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const sensorController = require("../controllers/sensorController");
+import { Router } from 'express';
+import { getSensorData, createSensorData } from '../controllers/sensorController.js';
 
-router.post("/", sensorController.create);
+const router = Router();
 
-router.get("/", sensorController.getAll);
+router.get('/', getSensorData);
+router.post('/', createSensorData);
 
-router.get("/:sensor_id/last", sensorController.getLastBySensor);
-
-module.exports = router;
+export default router;

@@ -1,29 +1,23 @@
-"use strict";
-const { Model } = require("sequelize");
+import { DataTypes } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
-  class Station extends Model {
-    static associate(models) {
-      Station.belongsTo(models.Community, { foreignKey: "community_id" });
-      Station.hasMany(models.Sensor, { foreignKey: "station_id" });
-      Station.hasMany(models.Maintenance, { foreignKey: "station_id" });
-    }
-  }
-
-  Station.init(
-    {
-      name: { type: DataTypes.STRING, allowNull: false },
-      code: { type: DataTypes.STRING, allowNull: false },
-      status: { type: DataTypes.BOOLEAN, defaultValue: true },
+export default (sequelize) => {
+  const Station = sequelize.define('Station', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    {
-      sequelize,
-      modelName: "Station",
-      tableName: "stations",
-      timestamps: true,
-      paranoid: true,
+    location: {
+      type: DataTypes.GEOMETRY('POINT'),
+      allowNull: false
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
-  );
+  }, {
+    timestamps: true,
+    tableName: 'stations'
+  });
 
   return Station;
 };
