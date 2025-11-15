@@ -1,5 +1,7 @@
+import { where } from "sequelize";
 import db from "../models/index.js";
-import { hashPassword } from "../utils/password.js";
+import { comparePassword, hashPassword } from "../utils/password.js";
+import { generateToken } from "../utils/jwt.js";
 
 const { User } = db;
 
@@ -22,4 +24,12 @@ export const createUserService = async (data, creatorRole) => {
   });
   const { password: _, ...userWithoutPassword } = newUser.toJSON();
   return userWithoutPassword;
+};
+
+export const loginService = async ({ email, password }) => {
+  const user = await User.findOne({ where: { email } });
+  const valid = await comparePassword(password, user.password);
+  if (!user || !valid) throw { status: 401, message: "Credenciales Invalidas" };
+  const token = generateToken(user);
+  return { token };
 };
