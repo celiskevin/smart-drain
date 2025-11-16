@@ -34,3 +34,14 @@ export const login = async (req, res) => {
       .json({ message: err.message || "Error interno del servidor" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await User.destroy({ where: { id: req.params.id } });
+    res.status(200).json({ message: "El usuario se eliminó correctamente", user });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      message: error.message || "Error interno del servidor",
+    });
+  }
+}
