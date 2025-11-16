@@ -17,20 +17,31 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
+      const res = await axios.post("http://localhost:4000/api/users/login", {
         email,
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-      onLoginSuccess(res.data.token);
+      // Validar que el token existe antes de guardarlo
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        onLoginSuccess(res.data.token);
+      } else {
+        throw new Error("No se recibió token del servidor");
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al iniciar sesión");
+      // Manejo más robusto del error
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Error al iniciar sesión");
+      } else {
+        console.error("Error al iniciar sesión:", err);
+        setError("Error de conexión o del sistema");
+      }
     } finally {
       setLoading(false);
-    }
-  };
 
+    }
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
       <form
