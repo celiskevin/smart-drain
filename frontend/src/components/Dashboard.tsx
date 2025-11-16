@@ -1,10 +1,15 @@
-import React from 'react'
+//Importación de componentes
 import { AdminDashboard } from './AdminDashboard'
+import { UserDashboard } from './UserDashboard'
+//Importación de funciones
+import { isAdmin } from '../utils/auth'
 
 export default function Dashboard() {
+    const admin = isAdmin();
     return (
-        <AdminDashboard />
+        //Si es administrador (admin ? ) rederiza AdminDashboard, si no (:) rederiza UserDashboard
+        admin ? <AdminDashboard /> : <UserDashboard />
     )
 }
 
-//Rednderizar Dashboard sin importar que sea administrador o usuario
+//Renderer Dashboard sin importar que sea administrador o usuario
