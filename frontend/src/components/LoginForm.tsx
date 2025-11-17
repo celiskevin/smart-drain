@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { api } from "../utils/api";
+import InputField from "./shared/InputField";
 import axios from "axios";
-
 interface LoginFormProps {
   onLoginSuccess: (token: string) => void;
 }
-
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,94 +17,73 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/users/login", {
+      const res = await api.post("/users/login", {
         email,
         password,
       });
 
-      // Validar que el token existe antes de guardarlo
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         onLoginSuccess(res.data.token);
       } else {
         throw new Error("No se recibió token del servidor");
       }
-    } catch (err: any) {
-      // Manejo más robusto del error
+    } catch (err) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Error al iniciar sesión");
+        const msg = "Error al iniciar sesión";
+        setError(msg);
       } else {
-        console.error("Error al iniciar sesión:", err);
-        setError("Error de conexión o del sistema");
+        setError("Error inesperado del sistema");
       }
     } finally {
       setLoading(false);
-
     }
-  }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md transition-colors"
-      >
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-[#111a22] px-4">
+      <div className="bg-[#18222d] w-full max-w-md rounded-2xl p-8 shadow-xl border border-[#1e2a33]
+                      animate-[fadeIn_0.4s_ease]">
+        <h2 className="text-white text-3xl font-bold text-center mb-6">
           Iniciar Sesión
         </h2>
 
-        {error && (
-          <div className="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 p-2 rounded mb-4 text-sm">
-            {error}
-          </div>
-        )}
+        <form onSubmit={handleSubmit}>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Correo electrónico
-          </label>
-          <input
+          <InputField
+            label="Correo Electrónico"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded-lg shadow-sm 
-                       focus:ring focus:ring-blue-500 focus:outline-none
-                       border-gray-300 dark:border-gray-600
-                       bg-white dark:bg-gray-700
-                       text-gray-900 dark:text-gray-100"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             placeholder="ejemplo@correo.com"
           />
-        </div>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Contraseña
-          </label>
-          <input
+          {/*TODO : QUITAR JSX Y USAR COMPONENTE DE ERROR*/}
+          {error && (
+            <div className="bg-red-900/40 text-red-300 p-2 rounded mb-4 text-sm border border-red-700/40">
+              {error}
+            </div>
+          )}
+
+          <InputField
+            label="Contraseña"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-3 py-2 border rounded-lg shadow-sm 
-                       focus:ring focus:ring-blue-500 focus:outline-none
-                       border-gray-300 dark:border-gray-600
-                       bg-white dark:bg-gray-700
-                       text-gray-900 dark:text-gray-100"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             placeholder="********"
-          />
-        </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white font-semibold py-2 px-4 
-                     rounded-lg shadow-md hover:bg-blue-700 
-                     disabled:opacity-50 transition-colors
-                     dark:bg-blue-500 dark:hover:bg-blue-600"
-        >
-          {loading ? "Cargando..." : "Ingresar"}
-        </button>
-      </form>
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`cursor-pointer w-full h-12 rounded-lg text-white font-bold flex items-center justify-center transition
+                      ${loading ? "bg-[#1e90ff]/40 cursor-not-allowed" : "bg-[#1e90ff] hover:bg-[#1877d4]"}`}
+          >
+            {loading ? "Cargando..." : "Ingresar"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
