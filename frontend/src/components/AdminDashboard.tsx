@@ -5,7 +5,8 @@ import StatCard from "./StatCard"
 import { calcAvgLevel } from "../utils/sensorMath";
 import { useEffect, useState } from "react";
 import type { SensorRecord } from "../utils/sensorData";
-import { getSensorData } from "../utils/sensorData";
+import { getActiveSensorsCount, getSensorData, } from "../utils/sensorData";
+import { getMaintenancesCount } from "../utils/maintenancesData"
 
 
 
@@ -14,6 +15,8 @@ import { getSensorData } from "../utils/sensorData";
 export const AdminDashboard = () => {
     const [_, setSensorData] = useState<SensorRecord[]>([]);
     const [avgLevel, setAvgLevel] = useState<number>(0);
+    const [activeSensors, setActiveSensors] = useState<number>(0);
+    const [maintenances, setMaintenances] = useState<number>(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -24,6 +27,23 @@ export const AdminDashboard = () => {
         }
         fetchData();
     }, []);
+
+
+    useEffect(() => {
+        async function load() {
+            const count = await getActiveSensorsCount()
+            setActiveSensors(count)
+        }
+        load();
+    }, [])
+
+    useEffect(() => {
+        async function load() {
+            const count = await getMaintenancesCount()
+            setMaintenances(count)
+        }
+        load();
+    }, [])
     return (
         <>
             <DashboardLayout>
@@ -31,8 +51,8 @@ export const AdminDashboard = () => {
 
                 <div className="flex flex-wrap gap-4 mb-6">
                     <StatCard title="Nivel de Llenado Promedio" value={avgLevel} />
-                    <StatCard title="Sensores Activos" value="120" />
-                    <StatCard title="Mantenimientos Programados" value="15" />
+                    <StatCard title="Sensores Activos" value={activeSensors} />
+                    <StatCard title="Mantenimientos Programados" value={maintenances} />
                 </div>
 
                 <h2 className="text-white text-xl font-bold mb-3">Próximos Mantenimientos</h2>

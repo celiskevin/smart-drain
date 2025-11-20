@@ -37,3 +37,19 @@ export const createSensorData = async (req, res) => {
     });
   }
 };
+
+export const getActiveSensorsCount = async (req, res) => {
+  try {
+    const count = await Sensor.count({
+      where: { status: true }
+    });
+
+    res.json({ activeSensors: count })
+  } catch (error) {
+    console.error('Error getting active sensors count:', error);
+    res.status(500).json({
+      error: "Error getting active sensors count",
+      details: error.message
+    });
+  }
+}

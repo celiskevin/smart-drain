@@ -1,4 +1,3 @@
-import axios from "axios";
 import { api } from "./api";
 import { getToken } from "./auth";
 
@@ -42,4 +41,20 @@ export async function getSensorData(): Promise<SensorRecord[]> {
         return [];
     }
 
+}
+
+export async function getActiveSensorsCount(): Promise<number> {
+    try {
+        const token = getToken();
+        const { data } = await api.get('/sensor-data/active-count', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        return data.activeSensors;
+    } catch (error) {
+        console.error("Error fetching active sensors count:", error);
+        return 0;
+    }
 }

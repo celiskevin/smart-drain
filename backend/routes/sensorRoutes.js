@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { getSensorData, createSensorData } from '../controllers/sensorController.js';
+import { getSensorData, createSensorData, getActiveSensorsCount } from '../controllers/sensorController.js';
 
 const router = Router();
 
 router.get('/', getSensorData);
 router.post('/', createSensorData);
+router.get('/active-count', getActiveSensorsCount);
 
 export default router;
