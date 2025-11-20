@@ -6,10 +6,6 @@ export default (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    location: {
-      type: DataTypes.GEOMETRY('POINT'),
-      allowNull: false
-    },
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: true

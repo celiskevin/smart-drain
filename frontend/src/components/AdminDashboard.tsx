@@ -2,14 +2,35 @@ import CalendarComponent from "./Calendar"
 import DashboardLayout from "./DashboardLayout"
 import QuickAccessCard from "./QuickAccessCard"
 import StatCard from "./StatCard"
+import { calcAvgLevel } from "../utils/sensorMath";
+import { useEffect, useState } from "react";
+import type { SensorRecord } from "../utils/sensorData";
+import { getSensorData } from "../utils/sensorData";
+
+
+
+
+
 export const AdminDashboard = () => {
+    const [_, setSensorData] = useState<SensorRecord[]>([]);
+    const [avgLevel, setAvgLevel] = useState<number>(0);
+
+    useEffect(() => {
+        async function fetchData() {
+            const data = await getSensorData();
+            setSensorData(data);
+            const avg = calcAvgLevel(data);
+            setAvgLevel(avg);
+        }
+        fetchData();
+    }, []);
     return (
         <>
             <DashboardLayout>
                 <h1 className="text-white text-3xl font-bold mb-4">Panel de Administración</h1>
 
                 <div className="flex flex-wrap gap-4 mb-6">
-                    <StatCard title="Nivel de Llenado Promedio" value="65%" />
+                    <StatCard title="Nivel de Llenado Promedio" value={avgLevel} />
                     <StatCard title="Sensores Activos" value="120" />
                     <StatCard title="Mantenimientos Programados" value="15" />
                 </div>
