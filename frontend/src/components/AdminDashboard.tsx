@@ -1,8 +1,9 @@
-import React from 'react'
-
+import SlideBar from "./SlideBar"
 export const AdminDashboard = () => {
     return (
-        <h1>Hola administrador!</h1>
+        <>
+            <SlideBar />
+        </>
     )
 }
 
