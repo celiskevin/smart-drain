@@ -18,6 +18,7 @@ export default function DataTable({ title, columns, data, onViewDetails }: Table
 
     const getStatusColor = (status: string) => {
         const statusColors: { [key: string]: string } = {
+            'MANTENIMIENTO': 'bg-red-700',
             'SIN RESOLVER': 'bg-red-700',
             'EN PROCESO': 'bg-yellow-700',
             'RESUELTO': 'bg-green-700',
