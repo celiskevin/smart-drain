@@ -18,14 +18,9 @@ export default function DataTable({ title, columns, data, onViewDetails }: Table
 
     const getStatusColor = (status: string) => {
         const statusColors: { [key: string]: string } = {
-            'Pendiente': 'bg-[#233648]',
-            'En progreso': 'bg-yellow-700',
-            'Completado': 'bg-green-700',
-            'Resuelto': 'bg-green-700',
-            'Crítico': 'bg-red-700',
-            'Alto': 'bg-orange-700',
-            'Medio': 'bg-yellow-700',
-            'Bajo': 'bg-blue-700'
+            'SIN RESOLVER': 'bg-red-700',
+            'EN PROCESO': 'bg-yellow-700',
+            'RESUELTO': 'bg-green-700',
         };
         return statusColors[status] || 'bg-[#233648]';
     };
@@ -75,7 +70,7 @@ export default function DataTable({ title, columns, data, onViewDetails }: Table
                                                             row[column.key]
                                                         )} text-white text-sm font-medium leading-normal w-full`}
                                                     >
-                                                        <span className="truncate">{row[column.key]}</span>
+                                                        <span className="truncate">{row[column.key].split(' ').map((w: string) => w[0].toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</span>
                                                     </button>
                                                 ) : (
                                                     row[column.key]
@@ -85,9 +80,9 @@ export default function DataTable({ title, columns, data, onViewDetails }: Table
                                         <td className="h-[72px] px-4 py-2 w-60">
                                             <button
                                                 onClick={() => onViewDetails && onViewDetails(row.id)}
-                                                className="text-[#92adc9] hover:text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors"
+                                                className="text-[#92adc9] hover:text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors cursor-pointer"
                                             >
-                                                Ver detalles
+                                                Cambiar estado
                                             </button>
                                         </td>
                                     </tr>

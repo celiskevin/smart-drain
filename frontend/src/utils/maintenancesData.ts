@@ -16,3 +16,18 @@ export async function getMaintenancesCount() {
         return 0;
     }
 }
+
+export async function getMaintenancesData() {
+    try {
+        const token = getToken();
+        const { data } = await api.get('/maintenances', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return data;
+    } catch (error) {
+        console.error("Error fetching maintenances data:", error);
+        return [];
+    }
+}

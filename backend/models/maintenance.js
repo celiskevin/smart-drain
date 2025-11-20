@@ -1,23 +1,44 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
-  const Maintenance = sequelize.define('Maintenance', {
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false
+  const Maintenance = sequelize.define(
+    "Maintenance",
+    {
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+
+      date: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+
+      assigned_by: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
+      technician_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
+      station_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "sin resolver"
+      }
     },
-    status: {
-      type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
-      defaultValue: 'pending'
-    },
-    date: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    {
+      timestamps: true,
+      tableName: "maintenances",
     }
-  }, {
-    timestamps: true,
-    tableName: 'maintenances'
-  });
+  );
 
   return Maintenance;
 };

@@ -1,5 +1,5 @@
 import db from '../models/index.js';
-const { Maintenance } = db;
+const { Maintenance, Station, User } = db;
 
 export const getMaintenancesCount = async (req, res) => {
     try {
@@ -15,3 +15,59 @@ export const getMaintenancesCount = async (req, res) => {
     }
 }
 
+export const getMaintenanceData = async (req, res) => {
+    try {
+        const data = await Maintenance.findAll({
+            include: [
+                {
+                    model: User,
+                    as: "assignedBy",
+                    attributes: ["id", "firstname"]
+                },
+                {
+                    model: User,
+                    as: "technician",
+                    attributes: ["id", "firstname"]
+                },
+                {
+                    model: Station,
+                    as: "station",
+                    attributes: ["id", "name"]
+                }
+            ]
+        });
+
+        res.json(data);
+    } catch (error) {
+        console.error("Error getting maintenances data:", error);
+        res.status(500).json({
+            error: "Error getting maintenances data",
+            details: error.message
+        });
+    }
+};
+
+
+export const updateMaintenanceStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const valid = ["sin resolver", "en proceso", "resuelto"];
+        if (!valid.includes(status)) {
+            return res.status(400).json({ error: "Estado inválido" });
+        }
+
+        const maintenance = await Maintenance.findByPk(id);
+        if (!maintenance) {
+            return res.status(404).json({ error: "Maintenance not found" });
+        }
+
+        maintenance.status = status;
+        await maintenance.save();
+
+        res.json({ message: "Status actualizado", maintenance });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

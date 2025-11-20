@@ -41,4 +41,20 @@ for (const modelName of Object.keys(db)) {
   }
 }
 
+// RELACIÓN: maintenance.assigned_by → users.id
+db.Maintenance.belongsTo(db.User, {
+  foreignKey: "assigned_by",
+  as: "assignedBy",
+});
+
+db.Maintenance.belongsTo(db.User, {
+  foreignKey: "technician_id",
+  as: "technician",
+});
+
+db.Maintenance.belongsTo(db.Station, {
+  foreignKey: "station_id",
+  as: "station",
+});
+
 export default db;
