@@ -16,7 +16,6 @@ export const createSensorData = async (req, res) => {
   try {
     const { sensor_id, station_id, level } = req.body;
 
-    // Validate required fields
     if (!sensor_id || !station_id || level === undefined) {
       return res.status(400).json({
         error: "sensor_id, station_id, and level are required"

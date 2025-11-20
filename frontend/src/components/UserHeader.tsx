@@ -1,11 +1,14 @@
 import type { ReactNode } from "react";
-
 interface UserHeaderProps {
     name: string;
     picture: ReactNode;
 }
 
 export default function UserHeader({ name, picture }: UserHeaderProps) {
+
+
+
+
 
     return (
         <div className=" flex gap-3 items-center">

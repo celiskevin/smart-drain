@@ -1,0 +1,106 @@
+/* === Estilo dark + iOS + compacto === */
+
+.ios-calendar,
+.ios-calendar * {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    background-color: transparent !important;
+    color: #e5eaf1 !important;
+}
+
+/* Contenedor limpio */
+.ios-calendar {
+    border-radius: 14px;
+    font-size: 12px;
+}
+
+/* Toolbar */
+.rbc-toolbar {
+    padding: 4px 6px;
+    margin-bottom: 4px;
+}
+
+.rbc-toolbar button {
+    background: #18222d !important;
+    /* card */
+    color: #e5eaf1 !important;
+    border-radius: 8px;
+    border: 1px solid #2c3a46 !important;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+.rbc-toolbar button:hover {
+    background: #1e90ff22 !important;
+    /* primary soft */
+}
+
+/* Label del mes */
+.rbc-toolbar-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e90ff !important;
+    /* primary */
+}
+
+/* Header días */
+.rbc-header {
+    padding: 4px 0;
+    font-size: 11px;
+    font-weight: 500;
+    color: #9aa5b4 !important;
+    border-color: #2c3a46 !important;
+}
+
+/* Día actual */
+.rbc-today {
+    background: #1e90ff33 !important;
+    border-radius: 10px;
+}
+
+/* Celdas */
+.rbc-month-row {
+    min-height: 55px !important;
+    /* compacta */
+}
+
+.rbc-date-cell {
+    padding: 2px;
+    font-size: 11px;
+}
+
+.rbc-date-cell>a {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* Hover */
+.rbc-month-view .rbc-day-bg:hover {
+    background: #1e90ff22 !important;
+    cursor: pointer;
+}
+
+/* Eventos tipo “pill” */
+.rbc-event {
+    background: #1e90ff !important;
+    border-radius: 6px !important;
+    padding: 1px 4px !important;
+    font-size: 10px !important;
+    border: none !important;
+}
+
+/* Popup */
+.rbc-overlay {
+    background: #18222d !important;
+    border-radius: 10px !important;
+    border: 1px solid #2c3a46 !important;
+}
+
+/* Líneas */
+.rbc-month-view {
+    border-color: #2c3a46 !important;
+}
+
+.rbc-day-bg {
+    border-color: #2c3a46 !important;
+}
