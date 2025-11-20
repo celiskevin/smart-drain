@@ -6,7 +6,7 @@ interface LoginFormProps {
   onLoginSuccess: (token: string) => void;
 }
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(""); //setEmail por debajo lo que hacemos es decir email = lo que hay en el campo
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
