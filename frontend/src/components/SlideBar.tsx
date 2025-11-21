@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SlideBarItem from "./SlideBarItem";
 import UserHeader from "./UserHeader";
-import { getUser } from "../utils/auth";
+import { getUser, clearToken } from "../utils/auth";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SlideBar() {
@@ -36,7 +36,8 @@ export default function SlideBar() {
                 label: 'Crear Usuarios',
                 icon: '/add-user-icon.svg',
                 alt: 'Crear Usuario'
-            },
+            }
+
         ],
         operario: [
             {
@@ -103,6 +104,11 @@ export default function SlideBar() {
 
     const userRoutes = routesByRole[role as keyof typeof routesByRole] || routesByRole.operario;
 
+    const logout = () => {
+        clearToken();
+        navigate('/login');
+    };
+
 
     return (
         <div
@@ -156,6 +162,12 @@ export default function SlideBar() {
                             />
                         </div>
                     ))}
+
+                    <SlideBarItem
+                        label={isCollapsed ? "" : "Cerrar Sesión"}
+                        icon={<img src="/logout-icon.svg" alt="Cerrar Sesión" className={`transition-all duration-300 ${isCollapsed ? 'w-8 h-8' : 'w-6 h-6'}`} />}
+                        onClick={logout} // <--- aquí
+                    />
                 </div>
             </div>
 

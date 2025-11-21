@@ -8,15 +8,17 @@ interface SlideBarItemProps {
     icon: React.ReactNode;
     label: string;
     active?: boolean;
+    onClick?: () => void;
 }
 //Dentro de las llaves van las propiedades que tiene por
 //defecto
-export default function SlideBarItem({ icon, label, active }: SlideBarItemProps) {
+export default function SlideBarItem({ icon, label, active, onClick }: SlideBarItemProps) {
 
     return (
         <div
             className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer
                 ${active ? "bg-[#233648] text-while" : "text-white hover:bg-[#233648]/40 transition-colors"}`}
+            onClick={onClick}
         >
 
             <div>

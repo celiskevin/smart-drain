@@ -100,3 +100,19 @@ export const updateMaintenanceStatus = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getUpcomingMaintenances = async () => {
+    try {
+        const maintenances = await getMaintenances();
+        const now = new Date();
+
+        // Filtrar solo mantenimientos futuros que no estén resueltos
+        return maintenances.filter(m => {
+            const maintenanceDate = new Date(m.date);
+            return maintenanceDate >= now && m.status !== 'resuelto';
+        });
+    } catch (error) {
+        console.error('Error fetching upcoming maintenances:', error);
+        throw error;
+    }
+};

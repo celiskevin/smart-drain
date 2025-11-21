@@ -1,106 +1,401 @@
-/* === Estilo dark + iOS + compacto === */
+/* calendar-ios.css */
 
-.ios-calendar,
-.ios-calendar * {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-        "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    background-color: transparent !important;
-    color: #e5eaf1 !important;
-}
-
-/* Contenedor limpio */
+/* Contenedor principal del calendario */
 .ios-calendar {
-    border-radius: 14px;
-    font-size: 12px;
+    background-color: transparent;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', 'Noto Sans', sans-serif;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    outline: none;
 }
 
-/* Toolbar */
+/* Quitar bordes externos */
+.rbc-calendar {
+    border: none;
+    outline: none;
+}
+
+/* Toolbar (navegación superior) */
 .rbc-toolbar {
-    padding: 4px 6px;
-    margin-bottom: 4px;
+    background-color: #192633;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    border: none;
 }
 
 .rbc-toolbar button {
-    background: #18222d !important;
-    /* card */
-    color: #e5eaf1 !important;
+    background-color: #233648;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
     border-radius: 8px;
-    border: 1px solid #2c3a46 !important;
-    padding: 3px 8px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .rbc-toolbar button:hover {
-    background: #1e90ff22 !important;
-    /* primary soft */
+    background-color: #324d67;
+    transform: translateY(-1px);
 }
 
-/* Label del mes */
-.rbc-toolbar-label {
-    font-size: 14px;
+.rbc-toolbar button:active {
+    background-color: #233648;
+    transform: translateY(0);
+}
+
+.rbc-toolbar button.rbc-active {
+    background-color: #3b82f6;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+    color: #ffffff;
+    font-size: 16px;
     font-weight: 600;
-    color: #1e90ff !important;
-    /* primary */
+    text-transform: capitalize;
 }
 
-/* Header días */
+/* Header del calendario (días de la semana) */
 .rbc-header {
-    padding: 4px 0;
-    font-size: 11px;
-    font-weight: 500;
-    color: #9aa5b4 !important;
-    border-color: #2c3a46 !important;
+    background-color: #192633;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 12px 4px;
+    border: none;
+    letter-spacing: 0.5px;
 }
 
-/* Día actual */
-.rbc-today {
-    background: #1e90ff33 !important;
-    border-radius: 10px;
+.rbc-header+.rbc-header {
+    border-left: none;
 }
 
-/* Celdas */
+/* Mes view */
+.rbc-month-view {
+    background-color: #111a22;
+    border: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Filas del mes */
 .rbc-month-row {
-    min-height: 55px !important;
-    /* compacta */
+    border: none;
+    overflow: visible;
 }
 
+/* Celdas de días - SIN CUADRÍCULA */
+.rbc-day-bg {
+    background-color: transparent;
+    border: none !important;
+    transition: background-color 0.2s ease;
+}
+
+.rbc-day-bg+div,
 .rbc-date-cell {
-    padding: 2px;
-    font-size: 11px;
+    color: white !important;
+}
+
+.rbc-day-bg:hover {
+    background-color: rgba(35, 54, 72, 0.3);
+}
+
+/* Día de hoy */
+.rbc-today {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    position: relative;
+}
+
+.rbc-today::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* Días fuera del mes actual */
+.rbc-off-range {
+    opacity: 0.3;
+}
+
+.rbc-off-range-bg {
+    background-color: transparent;
+}
+
+/* Números de los días */
+.rbc-date-cell {
+    padding: 8px;
+    text-align: right;
 }
 
 .rbc-date-cell>a {
-    color: #ffffff !important;
+    color: #ffffff;
+    font-size: 14px;
     font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
-/* Hover */
-.rbc-month-view .rbc-day-bg:hover {
-    background: #1e90ff22 !important;
-    cursor: pointer;
+.rbc-date-cell>a:hover {
+    background-color: #233648;
 }
 
-/* Eventos tipo “pill” */
+.rbc-off-range .rbc-date-cell>a {
+    color: #92adc9;
+    opacity: 0.5;
+}
+
+.rbc-now .rbc-date-cell>a {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+/* Eventos en el calendario */
 .rbc-event {
-    background: #1e90ff !important;
-    border-radius: 6px !important;
-    padding: 1px 4px !important;
-    font-size: 10px !important;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 2px 4px;
+}
+
+.rbc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    opacity: 1 !important;
+}
+
+.rbc-event.rbc-selected {
+    background-color: inherit;
+    outline: 2px solid #ffffff;
+    outline-offset: 1px;
+}
+
+.rbc-event-label {
+    display: none;
+}
+
+.rbc-event-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Contenedor de eventos */
+.rbc-row-content {
+    z-index: 4;
+}
+
+.rbc-row-segment {
+    padding: 2px 4px;
+}
+
+/* Show more link */
+.rbc-show-more {
+    background-color: #233648;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 2px 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rbc-show-more:hover {
+    background-color: #324d67;
+    color: #ffffff;
+}
+
+/* Overlay para eventos adicionales */
+.rbc-overlay {
+    background-color: #192633;
+    border: 1px solid #324d67;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    padding: 8px;
+}
+
+.rbc-overlay-header {
+    background-color: #233648;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px 6px 0 0;
+    font-weight: 600;
+    font-size: 14px;
+    margin: -8px -8px 8px -8px;
+}
+
+/* Slot de selección */
+.rbc-slot-selection {
+    background-color: rgba(59, 130, 246, 0.2);
+    border: 2px solid #3b82f6;
+    border-radius: 6px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .rbc-toolbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .rbc-toolbar button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .rbc-toolbar .rbc-toolbar-label {
+        font-size: 14px;
+    }
+
+    .rbc-header {
+        font-size: 10px;
+        padding: 8px 2px;
+    }
+
+    .rbc-date-cell>a {
+        font-size: 12px;
+        padding: 2px 4px;
+    }
+
+    .rbc-event {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+}
+
+/* Animaciones sutiles */
+.rbc-month-view {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Colores personalizados por estado */
+.rbc-event[style*="background-color: rgb(220, 38, 38)"] {
+    background-color: #dc2626 !important;
+}
+
+.rbc-event[style*="background-color: rgb(245, 158, 11)"] {
+    background-color: #f59e0b !important;
+}
+
+.rbc-event[style*="background-color: rgb(16, 185, 129)"] {
+    background-color: #10b981 !important;
+}
+
+/* Mejorar legibilidad del texto en eventos */
+.rbc-event-content {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Eliminar líneas de cuadrícula completamente */
+.rbc-time-content,
+.rbc-time-header-content,
+.rbc-day-slot,
+.rbc-time-slot {
     border: none !important;
 }
 
-/* Popup */
-.rbc-overlay {
-    background: #18222d !important;
-    border-radius: 10px !important;
-    border: 1px solid #2c3a46 !important;
+.rbc-timeslot-group {
+    border: none !important;
 }
 
-/* Líneas */
-.rbc-month-view {
-    border-color: #2c3a46 !important;
+/* Separación visual sutil entre días sin líneas */
+.rbc-day-bg+.rbc-day-bg {
+    position: relative;
 }
 
+.rbc-day-bg+.rbc-day-bg::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+            transparent,
+            rgba(146, 173, 201, 0.1) 20%,
+            rgba(146, 173, 201, 0.1) 80%,
+            transparent);
+}
+
+/* Efecto hover mejorado para días */
 .rbc-day-bg {
-    border-color: #2c3a46 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.rbc-day-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+            rgba(59, 130, 246, 0.1) 0%,
+            transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.rbc-day-bg:hover::after {
+    opacity: 1;
+}
+
+/* Quitar cualquier borde heredado */
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Asegurar que todos los textos sean blancos */
+.rbc-month-view .rbc-date-cell>a,
+.rbc-toolbar button,
+.rbc-toolbar .rbc-toolbar-label,
+.rbc-header,
+.rbc-show-more {
+    color: #ffffff !important;
 }
