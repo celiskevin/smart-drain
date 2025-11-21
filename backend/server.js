@@ -4,6 +4,7 @@ import 'dotenv/config';
 import userRoutes from "./routes/userRoutes.js";
 import sensorRoutes from "./routes/sensorRoutes.js";
 import maintenancesRoutes from "./routes/maintenancesRoutes.js";
+import stationRoutes from "./routes/stationRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/sensor-data", sensorRoutes);
 app.use("/api/maintenances", maintenancesRoutes);
+app.use("/api/stations", stationRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

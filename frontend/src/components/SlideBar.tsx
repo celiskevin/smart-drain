@@ -20,7 +20,7 @@ export default function SlideBar() {
                 alt: 'Incidencias'
             },
             {
-                path: '/agendar-mantenimiento',
+                path: '/nuevo-mantenimiento',
                 label: 'Agendar Mantenimiento',
                 icon: '/calendar-icon.svg',
                 alt: 'Agendar Mantenimiento'

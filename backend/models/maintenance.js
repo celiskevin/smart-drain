@@ -8,22 +8,22 @@ export default (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-
       date: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       assigned_by: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
       technician_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
       station_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -31,8 +31,8 @@ export default (sequelize) => {
       status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "sin resolver"
-      }
+        defaultValue: "sin resolver",
+      },
     },
     {
       timestamps: true,

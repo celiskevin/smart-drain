@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { getMaintenancesCount, getMaintenanceData, updateMaintenanceStatus } from '../controllers/maintenancesController.js';
+import { getMaintenancesCount, getMaintenanceData, updateMaintenanceStatus, createMaintenance } from '../controllers/maintenancesController.js';
 
 const router = Router();
 
 router.get('/count', getMaintenancesCount);
 router.get('/', getMaintenanceData);
+router.post('/', createMaintenance);
 
 router.put('/:id/status', updateMaintenanceStatus);
 

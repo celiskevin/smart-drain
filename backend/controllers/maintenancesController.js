@@ -1,6 +1,35 @@
 import db from '../models/index.js';
 const { Maintenance, Station, User } = db;
 
+export const createMaintenance = async (req, res) => {
+    try {
+        const { date, type, description, assigned_by, technician_id, station_id } = req.body;
+
+        if (!date || !type || !description || !assigned_by || !technician_id || !station_id) {
+            return res.status(400).json({
+                error: "Todos los campos son obligatorios"
+            })
+        }
+
+        const data = await Maintenance.create({
+            date,
+            type,
+            description,
+            assigned_by,
+            technician_id,
+            station_id
+        });
+
+        res.status(201).json(data);
+    } catch (error) {
+        console.error("Error creating maintenance:", error);
+        res.status(500).json({
+            error: "Error creating maintenance",
+            details: error.message
+        });
+    }
+}
+
 export const getMaintenancesCount = async (req, res) => {
     try {
         const count = await Maintenance.count();

@@ -1,6 +1,14 @@
 import { api } from "./api";
 import { getToken } from "./auth";
 
+export interface MaintenanceData {
+    date: string;
+    type: string;
+    station_id: number;
+    technician_id: number;
+    description: string;
+    assigned_by: number; // aquí va el usuario que crea el mantenimiento
+}
 
 export async function getMaintenancesCount() {
     try {

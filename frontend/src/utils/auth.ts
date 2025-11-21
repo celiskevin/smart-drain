@@ -53,3 +53,4 @@ export function getUser() {
 export function isAdmin() {
     return getUser()?.role === 'admin';
 }
+

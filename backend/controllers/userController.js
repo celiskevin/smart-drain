@@ -45,3 +45,13 @@ export const deleteUser = async (req, res) => {
     });
   }
 }
+
+export const getTechnicians = async (req, res) => {
+  try {
+    const technicians = await User.findAll({ where: { role: 'usuario' } });
+    res.json(technicians);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al obtener técnicos" });
+  }
+};
